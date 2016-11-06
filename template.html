@@ -1,0 +1,24 @@
+<script type="text/x-template" id="tree-template">
+    <div class="jstree jstree-proton jstree-checkbox-selection">
+        <ul v-if="model.length > 0"
+            class="jstree-children jstree-wholerow-ul">
+            <li v-for="item in model"
+                :class="['jstree-node',
+                item.children ? (item.expand ? 'jstree-open' : 'jstree-closed') : 'jstree-leaf']">
+                <div :class="['jstree-wholerow', item.checked ? 'jstree-wholerow-clicked' : '']">&nbsp;</div>
+                <i @click="expand(item, $event)"
+                   class="jstree-icon jstree-ocl"></i>
+                <a :class="['jstree-anchor', item.checked ? 'jstree-clicked' : '']" href="#">
+                    <i @click="checked(item, $event)"
+                       class="jstree-icon jstree-checkbox"></i>
+                    <i :class="['jstree-themeicon',
+                    item.children ? (item.expand ? 'fa fa-folder-open-o' : 'fa fa-folder-o') : 'fa fa-file-text-o']"></i>
+                    {{item.text}}
+                </a>
+                <tree-view v-show="item.expand"
+                           v-if="item.children && item.children.length > 0"
+                           :model="item.children"></tree-view>
+            </li>
+        </ul>
+    </div>
+</script>

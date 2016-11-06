@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <link href="./lib/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="./lib/jstree.css" rel="stylesheet" type="text/css">
+    <script src="//cdn.bootcss.com/vue/1.0.27/vue.js"></script>
+</head>
+<body>
+    <div id="main" style="padding: 40px;">
+        <div>
+            <tree-view :model="treeData"></tree-view>
+        </div>
+    </div>
+
+    <script type="text/x-template" id="tree-template">
+        <div class="jstree jstree-proton jstree-checkbox-selection">
+            <ul v-if="model.length > 0"
+                class="jstree-children jstree-wholerow-ul">
+                <li v-for="item in model"
+                    :class="['jstree-node',
+                item.children ? (item.expand ? 'jstree-open' : 'jstree-closed') : 'jstree-leaf']">
+                    <div :class="['jstree-wholerow', item.checked ? 'jstree-wholerow-clicked' : '']">&nbsp;</div>
+                    <i @click="expand(item, $event)"
+                       class="jstree-icon jstree-ocl"></i>
+                    <a :class="['jstree-anchor', item.checked ? 'jstree-clicked' : '']" href="#">
+                        <i @click="checked(item, $event)"
+                           class="jstree-icon jstree-checkbox"></i>
+                        <i :class="['jstree-themeicon',
+                    item.children ? (item.expand ? 'fa fa-folder-open-o' : 'fa fa-folder-o') : 'fa fa-file-text-o']"></i>
+                        {{item.text}}
+                    </a>
+                    <tree-view v-show="item.expand"
+                               v-if="item.children && item.children.length > 0"
+                               :model="item.children"></tree-view>
+                </li>
+            </ul>
+        </div>
+    </script>
+    <script src="jstree.js"></script>
+    <script>
+        var mainVm = new Vue({
+            el: '#main',
+            data: {
+                treeData: [
+                    {
+                        id: '1',
+                        text: "第一层",
+                        children: [
+                            {
+                                id: '1-2',
+                                text: "第二层01",
+                                checked: false
+                            },
+                            {
+                                id: '1-3',
+                                text: "第二层02",
+                                checked: false
+                            },
+                            {
+                                id: '1-4',
+                                text: "第二层03",
+                                checked: false,
+                                children: [
+                                    {
+                                        id: '2-1',
+                                        text: '第三层01',
+                                        checked: false
+                                    },
+                                    {
+                                        id: '2-2',
+                                        text: '第三层02',
+                                        checked: false
+                                    }
+                                ],
+                                expand: true,
+                                checked: false
+                            },
+                            {
+                                id: '1-5',
+                                text: "第二层04",
+                                checked: false
+                            }
+                        ],
+                        expand: true,
+                        checked: false
+                    }]
+            }
+        })
+    </script>
+</body>
+</html>
